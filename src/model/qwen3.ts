@@ -110,6 +110,9 @@ export class Qwen3Model {
   maxSeqLen = 2048;
   maxSeqs = 64;
   gpuBytes = 0;
+  // 生成プロンプトに <think></think> を入れるモデルかどうか。チャットテンプレートから判断する。
+  // Qwen3-*-Instruct-2507 のように thinking を持たないモデルは入れない。
+  thinkBlock = true;
 
   private src!: ByteSource;
   private pool!: BufferPool;
@@ -160,6 +163,8 @@ export class Qwen3Model {
       contextLength: metaNum(g, "qwen3.context_length"),
     };
     this.tokenizer = new BPETokenizer(g.metadata);
+    const tmpl = g.metadata.get("tokenizer.chat_template");
+    this.thinkBlock = typeof tmpl === "string" ? tmpl.includes("<think>") : true;
 
     // 埋め込みはCPU側で行参照する（GPUには載せない）。lm_headは候補行だけを必要時に読む（tied embeddingsなら token_embd を使う）
     this.embdInfo = this.tensor("token_embd.weight");

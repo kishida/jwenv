@@ -77,13 +77,14 @@ export class JevError extends Error {
 }
 
 /** Python側 jev/prompt.py の build_prompt（＝llama-server の /v1/systemone）と完全一致させること */
-export function buildPrompt(question: string, labelMap: [string, string][], context?: string | null, system?: string): string {
+export function buildPrompt(question: string, labelMap: [string, string][], context?: string | null, system?: string, think = true): string {
   const sysPart = system ? `<|im_start|>system\n${system}<|im_end|>\n` : "";
   const opts = labelMap.map(([l, c]) => `${l}: ${c}`).join("\n");
   return (
     `${sysPart}<|im_start|>user\nContext:\n${context || "(none)"}\n\n` +
     "Answer the question with only the label of the best option (the character before the colon), nothing else.\n" +
-    `Question: ${question}\nOptions:\n${opts}<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n`
+    `Question: ${question}\nOptions:\n${opts}<|im_end|>\n<|im_start|>assistant\n` +
+    (think ? "<think>\n\n</think>\n\n" : "")
   );
 }
 
@@ -230,7 +231,7 @@ export class JevClassifier {
         const shift = Math.round((s * n) / k);
         const perm = Array.from({ length: n }, (_, i) => (i + shift) % n);
         const labelMap = perm.map((ci, pos) => [LABELS[pos], texts[ci]] as [string, string]);
-        const ids = this.model.tokenizer.encode(buildPrompt(question, labelMap, context));
+        const ids = this.model.tokenizer.encode(buildPrompt(question, labelMap, context, undefined, this.model.thinkBlock));
         if (ids.length > this.model.maxSeqLen)
           throw new JevError("context_too_long", `prompt for question "${id}" is ${ids.length} tokens (max ${this.model.maxSeqLen})`, "state");
         seqs.push(ids);
