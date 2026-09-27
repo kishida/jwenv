@@ -19,32 +19,34 @@
 <text class="mut" x="54" y="119.8" font-size="12" text-anchor="end">0.8</text>
 <line class="grid" x1="64" y1="44.3" x2="580" y2="44.3"/>
 <text class="mut" x="54" y="48.3" font-size="12" text-anchor="end">0.9</text>
-<line class="grid" x1="86.0" y1="30" x2="86.0" y2="366"/>
-<text class="mut" x="86.0" y="384" font-size="12" text-anchor="middle">0.5 GB</text>
-<line class="grid" x1="195.7" y1="30" x2="195.7" y2="366"/>
-<text class="mut" x="195.7" y="384" font-size="12" text-anchor="middle">1 GB</text>
-<line class="grid" x1="305.5" y1="30" x2="305.5" y2="366"/>
-<text class="mut" x="305.5" y="384" font-size="12" text-anchor="middle">1.5 GB</text>
-<line class="grid" x1="415.3" y1="30" x2="415.3" y2="366"/>
-<text class="mut" x="415.3" y="384" font-size="12" text-anchor="middle">2 GB</text>
-<line class="grid" x1="525.1" y1="30" x2="525.1" y2="366"/>
-<text class="mut" x="525.1" y="384" font-size="12" text-anchor="middle">2.5 GB</text>
+<line class="grid" x1="130.6" y1="30" x2="130.6" y2="366"/>
+<text class="mut" x="130.6" y="384" font-size="12" text-anchor="middle">1 GB</text>
+<line class="grid" x1="241.5" y1="30" x2="241.5" y2="366"/>
+<text class="mut" x="241.5" y="384" font-size="12" text-anchor="middle">2 GB</text>
+<line class="grid" x1="352.5" y1="30" x2="352.5" y2="366"/>
+<text class="mut" x="352.5" y="384" font-size="12" text-anchor="middle">3 GB</text>
+<line class="grid" x1="463.5" y1="30" x2="463.5" y2="366"/>
+<text class="mut" x="463.5" y="384" font-size="12" text-anchor="middle">4 GB</text>
+<line class="grid" x1="574.5" y1="30" x2="574.5" y2="366"/>
+<text class="mut" x="574.5" y="384" font-size="12" text-anchor="middle">5 GB</text>
 <text class="mut" x="64" y="408" font-size="12">GGUF のファイルサイズ　／　当てずっぽうは 0.283</text>
-<line class="link" x1="140.9" y1="321.0" x2="107.9" y2="190.9" stroke-width="2"/>
-<line class="link" x1="419.7" y1="178.0" x2="351.6" y2="112.9" stroke-width="2"/>
-<line class="link" x1="487.8" y1="93.6" x2="487.8" y2="67.2" stroke-width="2"/>
-<rect class="tuned" x="102.9" y="185.9" width="10" height="10" transform="rotate(45 107.9 190.9)"/>
-<text class="fg" x="107.9" y="177.9" font-size="13" text-anchor="middle">0.6B</text>
-<rect class="tuned" x="346.6" y="107.9" width="10" height="10" transform="rotate(45 351.6 112.9)"/>
-<text class="fg" x="351.6" y="99.9" font-size="13" text-anchor="middle">1.7B</text>
-<rect class="tuned" x="482.8" y="62.2" width="10" height="10" transform="rotate(45 487.8 67.2)"/>
-<text class="fg" x="487.8" y="54.2" font-size="13" text-anchor="middle">4B</text>
-<circle class="base" cx="140.9" cy="321.0" r="5"/>
-<text class="fg" x="140.9" y="340.0" font-size="13" text-anchor="middle">0.6B</text>
-<circle class="base" cx="419.7" cy="178.0" r="5"/>
-<text class="fg" x="419.7" y="197.0" font-size="13" text-anchor="middle">1.7B</text>
-<circle class="base" cx="487.8" cy="93.6" r="5"/>
-<text class="fg" x="487.8" y="112.6" font-size="13" text-anchor="middle">4B Instruct</text>
+<line class="link" x1="102.8" y1="321.0" x2="86.2" y2="190.9" stroke-width="2"/>
+<line class="link" x1="243.8" y1="178.0" x2="209.4" y2="112.9" stroke-width="2"/>
+<line class="link" x1="278.2" y1="93.6" x2="278.2" y2="67.2" stroke-width="2"/>
+<rect class="tuned" x="81.2" y="185.9" width="10" height="10" transform="rotate(45 86.2 190.9)"/>
+<text class="fg" x="86.2" y="177.9" font-size="13" text-anchor="middle">0.6B</text>
+<rect class="tuned" x="204.4" y="107.9" width="10" height="10" transform="rotate(45 209.4 112.9)"/>
+<text class="fg" x="209.4" y="99.9" font-size="13" text-anchor="middle">1.7B</text>
+<rect class="tuned" x="273.2" y="62.2" width="10" height="10" transform="rotate(45 278.2 67.2)"/>
+<text class="fg" x="278.2" y="54.2" font-size="13" text-anchor="middle">4B</text>
+<circle class="base" cx="102.8" cy="321.0" r="5"/>
+<text class="fg" x="102.8" y="340.0" font-size="13" text-anchor="middle">0.6B</text>
+<circle class="base" cx="243.8" cy="178.0" r="5"/>
+<text class="fg" x="243.8" y="197.0" font-size="13" text-anchor="middle">1.7B</text>
+<circle class="base" cx="278.2" cy="93.6" r="5"/>
+<text class="fg" x="278.2" y="112.6" font-size="13" text-anchor="middle">4B Instruct</text>
+<circle class="base" cx="538.9" cy="88.6" r="5"/>
+<text class="fg" x="538.9" y="107.6" font-size="13" text-anchor="middle">8B</text>
 <rect class="tuned" x="590" y="39" width="10" height="10" transform="rotate(45 595 44)"/>
 <text class="fg" x="606" y="48" font-size="12">jwenv（学習済み）</text>
 <circle class="base" cx="595" cy="68" r="5"/>

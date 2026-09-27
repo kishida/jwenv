@@ -17,13 +17,14 @@ POINTS = [
     ("0.6B ", 0.75, 0.513, False),
     ("1.7B ", 2.02, 0.713, False),
     ("4B Instruct", 2.33, 0.831, False),
+    ("8B", 4.68, 0.838, False),
 ]
 PAIRS = [("0.6B ", "0.6B"), ("1.7B ", "1.7B"), ("4B Instruct", "4B")]
 CHANCE = 0.283
 
 W, H = 760, 420
 L, R, T, B = 64, 180, 30, 54          # 右は凡例とラベルの余白
-X0, X1 = 0.40, 2.75                    # GiB
+X0, X1 = 0.40, 5.05                    # GiB
 Y0, Y1 = 0.45, 0.92
 
 # ラベルの置き方 (dx, dy, anchor)
@@ -34,6 +35,7 @@ NUDGE = {                      # jwenv は点の上、素の Qwen3 は点の下�
     "0.6B ": (0, 19, "middle"),
     "1.7B ": (0, 19, "middle"),
     "4B Instruct": (0, 19, "middle"),
+    "8B": (0, 19, "middle"),
 }
 
 
@@ -66,7 +68,7 @@ def main():
         e.append(f'<line class="grid" x1="{L}" y1="{y:.1f}" x2="{W - R}" y2="{y:.1f}"/>')
         e.append(f'<text class="mut" x="{L - 10}" y="{y + 4:.1f}" font-size="12" '
                  f'text-anchor="end">{acc:.1f}</text>')
-    for gb in (0.5, 1.0, 1.5, 2.0, 2.5):
+    for gb in (1, 2, 3, 4, 5):
         x = sx(gb)
         e.append(f'<line class="grid" x1="{x:.1f}" y1="{T}" x2="{x:.1f}" y2="{H - B}"/>')
         e.append(f'<text class="mut" x="{x:.1f}" y="{H - B + 18}" font-size="12" '

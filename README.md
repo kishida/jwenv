@@ -111,9 +111,12 @@ curl -s http://127.0.0.1:8080/v1/systemone -H "Content-Type: application/json" -
 
 ## Models
 
-Any Qwen3 GGUF works, but the probabilities are only meaningful after calibration. A model
-fine-tuned for this can carry its temperature in the GGUF metadata key `jev.temperature`, and the
-engine then applies it without being told.
+Any **Qwen3** GGUF works — the architecture has to be `qwen3`, so Qwen3.5 and later, which replace
+part of the attention with Gated DeltaNet, are not supported. The probabilities are only meaningful
+after calibration; a model fine-tuned for this can carry its temperature in the GGUF metadata key
+`jev.temperature`, and the engine then applies it without being told. Whether the prompt ends with
+an empty `<think></think>` is read from the model's own chat template, so a thinking model and an
+Instruct-2507 model both get the prompt they were trained on.
 
 Supported quantizations: **Q8_0** and the **K-quants** (Q2_K through Q6_K, including the mixed
 variants such as Q4_K_M), which stay quantized on the GPU, plus F16 / F32 / BF16, which are expanded
@@ -141,25 +144,45 @@ at the same quantization, before and after.
 
 ![size and accuracy](docs/size-vs-accuracy.svg)
 
-| model | quant | accuracy | ECE (T=1 → calibrated) | T | time / question |
-|---|---|---|---|---|---|
-| **jwenv 4B poc** | Q4_K_M | **0.868** | 0.067 → **0.023** | 1.52 | 51 ms |
-| Qwen3-4B-Instruct-2507 | Q4_K_M | 0.831 | 0.096 → 0.043 | 1.77 | 60 ms |
-| **jwenv 1.7B poc** | Q8_0 | **0.804** | 0.095 → **0.033** | 1.58 | 51 ms |
-| Qwen3-1.7B | Q8_0 | 0.713 | 0.271 → 0.034 | **8.57** | 55 ms |
-| **jwenv 0.6B poc** | Q8_0 | **0.695** | 0.125 → **0.043** | 1.60 | 41 ms |
-| Qwen3-0.6B | Q8_0 | 0.513 | 0.349 → 0.055 | **6.60** | 42 ms |
+| model | quant | size | accuracy | ECE (T=1 → calibrated) | T | time / question |
+|---|---|---|---|---|---|---|
+| **jwenv 4B poc** | Q4_K_M | 2.33 GB | **0.868** | 0.067 → **0.023** | 1.52 | 51 ms |
+| Qwen3-4B-Instruct-2507 | Q4_K_M | 2.33 GB | 0.831 | 0.096 → 0.043 | 1.77 | 60 ms |
+| **jwenv 1.7B poc** | Q8_0 | 1.71 GB | **0.804** | 0.095 → **0.033** | 1.58 | 51 ms |
+| Qwen3-1.7B | Q8_0 | 2.02 GB | 0.713 | 0.271 → 0.034 | **8.57** | 55 ms |
+| **jwenv 0.6B poc** | Q8_0 | 0.60 GB | **0.695** | 0.125 → **0.043** | 1.60 | 41 ms |
+| Qwen3-0.6B | Q8_0 | 0.75 GB | 0.513 | 0.349 → 0.055 | **6.60** | 42 ms |
+| Qwen3-8B, for scale | Q4_K_M | 4.68 GB | 0.838 | 0.147 → 0.031 | **7.00** | 71 ms |
 
 The gain is largest where the model is smallest: +0.182 at 0.6B, +0.091 at 1.7B, +0.037 at 4B. A
-tuned 0.6B beats an untouched 1.7B, and a tuned 1.7B comes close to an untouched 4B Instruct.
+tuned 0.6B beats an untouched 1.7B, a tuned 1.7B comes close to an untouched 4B Instruct, and the
+tuned 4B is still ahead of an untouched 8B at half the size.
 
 The temperature matters as much as the accuracy. An untouched Qwen3 answers almost everything with
 near-certainty and needs its logits divided by 6.6 or 8.6 before the numbers mean anything; the
 tuned models sit near 1.6, so the raw probabilities are already usable. That is why the uncalibrated
 ECE drops from 0.349 to 0.125 at 0.6B.
 
-These numbers were measured through this engine's own `/v1/systemone`. Running the same models under
-llama.cpp gives the same answers to within 0.01, because the prompt is built identically.
+Those numbers come from llama.cpp, which is the faster way to run the benchmark. This engine agrees
+with it — same GGUF, same questions, same GPU:
+
+| model | accuracy, this engine | accuracy, llama.cpp | time / question, this engine | llama.cpp |
+|---|---|---|---|---|
+| jwenv 0.6B poc Q8_0 | 0.698 | 0.694 | 84 ms | 43 ms |
+| jwenv 1.7B poc Q8_0 | 0.799 | 0.801 | 132 ms | 42 ms |
+| jwenv 4B poc Q8_0 | 0.873 | 0.871 | 268 ms | 51 ms |
+
+The answers match to within 0.004, which is two to five questions out of 1,191 — the difference
+between two dequantization kernels. llama.cpp is two to five times faster, and the gap widens with
+the model, which is what hand-written CUDA against portable WGSL should look like. What this engine
+offers instead is that it runs in a browser and needs no native module.
+
+Reproduce it with [jev-bench](https://github.com/kishida/jev-bench):
+
+```bash
+npm start -- --model jwenv-4b-poc-q8_0.gguf --port 8080
+python jev-bench/eval.py --url http://127.0.0.1:8080
+```
 
 ## Layout
 
