@@ -163,8 +163,10 @@ near-certainty and needs its logits divided by 6.6 or 8.6 before the numbers mea
 tuned models sit near 1.6, so the raw probabilities are already usable. That is why the uncalibrated
 ECE drops from 0.349 to 0.125 at 0.6B.
 
-Those numbers come from llama.cpp, which is the faster way to run the benchmark. This engine agrees
-with it — same GGUF, same questions, same GPU:
+Those numbers come from llama.cpp — not upstream llama.cpp, which has no such endpoint, but the
+`jev` branch of [kishida/llama.cpp](https://github.com/kishida/llama.cpp/blob/jev/docs/jev.md),
+where the same `/v1/systemone` is added to `llama-server`. This engine agrees with it — same GGUF,
+same questions, same GPU:
 
 | model | accuracy, this engine | accuracy, llama.cpp | time / question, this engine | llama.cpp |
 |---|---|---|---|---|
@@ -174,8 +176,19 @@ with it — same GGUF, same questions, same GPU:
 
 The answers match to within 0.004, which is two to five questions out of 1,191 — the difference
 between two dequantization kernels. llama.cpp is two to five times faster, and the gap widens with
-the model, which is what hand-written CUDA against portable WGSL should look like. What this engine
-offers instead is that it runs in a browser and needs no native module.
+the model, which is what hand-written CUDA against portable WGSL should look like.
+
+### Which one to use
+
+Use the llama.cpp branch if you want **speed**, **images** — it serves any multimodal GGUF with an
+`--mmproj`, and the same questions can be asked about a picture — or **any model that is not
+Qwen3**: Gemma, GLM, gpt-oss, the Qwen3.5 and later generations, all of them, since it inherits
+llama.cpp's model support. Its docs carry a table of how a few dozen models score on this
+benchmark.
+
+Use this engine when you want the model to run **in a browser**, with the file never leaving the
+machine, or when a native module is not an option. It speaks the same API, so nothing else in your
+code changes.
 
 Reproduce it with [jev-bench](https://github.com/kishida/jev-bench):
 

@@ -76,7 +76,7 @@ def main():
 
     y = sy(CHANCE) if CHANCE > Y0 else None
     e.append(f'<text class="mut" x="{L}" y="{H - 12}" font-size="12">'
-             f'GGUF のファイルサイズ　／　当てずっぽうは {CHANCE}</text>')
+             f'GGUF file size  ·  always guessing scores {CHANCE}</text>')
 
     for a, b in PAIRS:
         pa, pb = by[a], by[b]
@@ -98,14 +98,14 @@ def main():
     lx, ly = W - R + 10, T + 14
     e.append(f'<rect class="tuned" x="{lx}" y="{ly - 5}" width="10" height="10" '
              f'transform="rotate(45 {lx + 5} {ly})"/>')
-    e.append(f'<text class="fg" x="{lx + 16}" y="{ly + 4}" font-size="12">jwenv（学習済み）</text>')
+    e.append(f'<text class="fg" x="{lx + 16}" y="{ly + 4}" font-size="12">jwenv (fine-tuned)</text>')
     e.append(f'<circle class="base" cx="{lx + 5}" cy="{ly + 24}" r="5"/>')
-    e.append(f'<text class="fg" x="{lx + 16}" y="{ly + 28}" font-size="12">素の Qwen3</text>')
-    e.append(f'<text class="mut" x="{lx}" y="{ly + 56}" font-size="11">線は同じモデルの</text>')
-    e.append(f'<text class="mut" x="{lx}" y="{ly + 72}" font-size="11">学習前後を結ぶ</text>')
+    e.append(f'<text class="fg" x="{lx + 16}" y="{ly + 28}" font-size="12">Qwen3, untouched</text>')
+    e.append(f'<text class="mut" x="{lx}" y="{ly + 56}" font-size="11">a line joins one model</text>')
+    e.append(f'<text class="mut" x="{lx}" y="{ly + 72}" font-size="11">before and after</text>')
 
     e.append(f'<text class="fg" x="{L}" y="{T - 8}" font-size="13">'
-             f'jev-bench の正解率（客観 1,191問、2〜8択）</text>')
+             f'jev-bench accuracy — 1,191 questions with 2 to 8 options</text>')
     e.append("</svg>")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(e), encoding="utf-8")

@@ -29,7 +29,7 @@
 <text class="mut" x="463.5" y="384" font-size="12" text-anchor="middle">4 GB</text>
 <line class="grid" x1="574.5" y1="30" x2="574.5" y2="366"/>
 <text class="mut" x="574.5" y="384" font-size="12" text-anchor="middle">5 GB</text>
-<text class="mut" x="64" y="408" font-size="12">GGUF のファイルサイズ　／　当てずっぽうは 0.283</text>
+<text class="mut" x="64" y="408" font-size="12">GGUF file size  ·  always guessing scores 0.283</text>
 <line class="link" x1="102.8" y1="321.0" x2="86.2" y2="190.9" stroke-width="2"/>
 <line class="link" x1="243.8" y1="178.0" x2="209.4" y2="112.9" stroke-width="2"/>
 <line class="link" x1="278.2" y1="93.6" x2="278.2" y2="67.2" stroke-width="2"/>
@@ -48,10 +48,10 @@
 <circle class="base" cx="538.9" cy="88.6" r="5"/>
 <text class="fg" x="538.9" y="107.6" font-size="13" text-anchor="middle">8B</text>
 <rect class="tuned" x="590" y="39" width="10" height="10" transform="rotate(45 595 44)"/>
-<text class="fg" x="606" y="48" font-size="12">jwenv（学習済み）</text>
+<text class="fg" x="606" y="48" font-size="12">jwenv (fine-tuned)</text>
 <circle class="base" cx="595" cy="68" r="5"/>
-<text class="fg" x="606" y="72" font-size="12">素の Qwen3</text>
-<text class="mut" x="590" y="100" font-size="11">線は同じモデルの</text>
-<text class="mut" x="590" y="116" font-size="11">学習前後を結ぶ</text>
-<text class="fg" x="64" y="22" font-size="13">jev-bench の正解率（客観 1,191問、2〜8択）</text>
+<text class="fg" x="606" y="72" font-size="12">Qwen3, untouched</text>
+<text class="mut" x="590" y="100" font-size="11">a line joins one model</text>
+<text class="mut" x="590" y="116" font-size="11">before and after</text>
+<text class="fg" x="64" y="22" font-size="13">jev-bench accuracy — 1,191 questions with 2 to 8 options</text>
 </svg>
