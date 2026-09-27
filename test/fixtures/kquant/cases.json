@@ -1,0 +1,214 @@
+{
+ "cases": [
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 0,
+   "file": "000.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 1,
+   "file": "001.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 151935,
+   "file": "002.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_k.weight",
+   "type": "Q2_K",
+   "row": 0,
+   "file": "003.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_k.weight",
+   "type": "Q2_K",
+   "row": 1,
+   "file": "004.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_k.weight",
+   "type": "Q2_K",
+   "row": 1023,
+   "file": "005.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q3_K",
+   "row": 0,
+   "file": "006.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q3_K",
+   "row": 1,
+   "file": "007.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q3_K",
+   "row": 1023,
+   "file": "008.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_q.weight",
+   "type": "Q2_K",
+   "row": 0,
+   "file": "009.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_q.weight",
+   "type": "Q2_K",
+   "row": 1,
+   "file": "010.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_q.weight",
+   "type": "Q2_K",
+   "row": 2047,
+   "file": "011.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q3_K",
+   "row": 0,
+   "file": "012.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q3_K",
+   "row": 1,
+   "file": "013.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q2_K.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q3_K",
+   "row": 1023,
+   "file": "014.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 0,
+   "file": "015.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 1,
+   "file": "016.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "token_embd.weight",
+   "type": "Q6_K",
+   "row": 151935,
+   "file": "017.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q4_K",
+   "row": 0,
+   "file": "018.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q4_K",
+   "row": 1,
+   "file": "019.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_output.weight",
+   "type": "Q4_K",
+   "row": 1023,
+   "file": "020.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q5_K",
+   "row": 0,
+   "file": "021.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q5_K",
+   "row": 1,
+   "file": "022.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.attn_v.weight",
+   "type": "Q5_K",
+   "row": 1023,
+   "file": "023.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.ffn_down.weight",
+   "type": "Q5_K",
+   "row": 0,
+   "file": "024.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.ffn_down.weight",
+   "type": "Q5_K",
+   "row": 1,
+   "file": "025.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.0.ffn_down.weight",
+   "type": "Q5_K",
+   "row": 1023,
+   "file": "026.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.1.attn_output.weight",
+   "type": "Q4_K",
+   "row": 0,
+   "file": "027.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.1.attn_output.weight",
+   "type": "Q4_K",
+   "row": 1,
+   "file": "028.f32"
+  },
+  {
+   "gguf": "qwen3-0.6b-jev-Q3_K_M.gguf",
+   "tensor": "blk.1.attn_output.weight",
+   "type": "Q4_K",
+   "row": 1023,
+   "file": "029.f32"
+  }
+ ]
+}

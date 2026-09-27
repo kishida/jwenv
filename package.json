@@ -1,0 +1,24 @@
+{
+  "name": "jwenv-engine",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "description": "Qwen3 GGUF inference engine (Node.js + WebGPU) that returns a probability for each option instead of generating text. No llama.cpp dependency.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kishida/jwenv.git"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "build:web": "node web/build.mjs",
+    "serve:web": "node web/serve.mjs 8765",
+    "test": "node test/test_gguf.ts"
+  },
+  "dependencies": {
+    "@types/node": "^26.6.2",
+    "@webgpu/types": "^0.1.74",
+    "typescript": "^7.0.2",
+    "webgpu": "^0.6.1"
+  }
+}
