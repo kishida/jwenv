@@ -119,6 +119,48 @@ Supported quantizations: **Q8_0** and the **K-quants** (Q2_K through Q6_K, inclu
 variants such as Q4_K_M), which stay quantized on the GPU, plus F16 / F32 / BF16, which are expanded
 to f32 on load and so need much more GPU memory. IQ quantizations are not supported.
 
+### The jwenv models
+
+Three Qwen3 models fine-tuned for this task, by distilling the probability distribution of a larger
+teacher. They answer with A to H, so they handle 2 to 8 options.
+
+| model | base | quant | size | download |
+|---|---|---|---|---|
+| jwenv 4B poc | Qwen3-4B-Instruct-2507 | Q8_0 | 3.99 GB | [kishida/jwenv-4b-poc-gguf](https://huggingface.co/kishida/jwenv-4b-poc-gguf) |
+| | | Q4_K_M | 2.33 GB | |
+| jwenv 1.7B poc | Qwen3-1.7B | Q8_0 | 1.71 GB | [kishida/jwenv-1.7b-poc-gguf](https://huggingface.co/kishida/jwenv-1.7b-poc-gguf) |
+| | | Q4_K_M | 1.03 GB | |
+| jwenv 0.6B poc | Qwen3-0.6B | Q8_0 | 0.60 GB | [kishida/jwenv-0.6b-poc-gguf](https://huggingface.co/kishida/jwenv-0.6b-poc-gguf) |
+| | | Q4_K_M | 0.37 GB | |
+
+### What the fine-tuning buys
+
+Measured with [jev-bench](https://github.com/kishida/jev-bench): 1,191 multiple-choice questions
+with 2 to 8 options, where always guessing scores 0.283. Each pair below is the same base model
+at the same quantization, before and after.
+
+![size and accuracy](docs/size-vs-accuracy.svg)
+
+| model | quant | accuracy | ECE (T=1 → calibrated) | T | time / question |
+|---|---|---|---|---|---|
+| **jwenv 4B poc** | Q4_K_M | **0.868** | 0.067 → **0.023** | 1.52 | 51 ms |
+| Qwen3-4B-Instruct-2507 | Q4_K_M | 0.831 | 0.096 → 0.043 | 1.77 | 60 ms |
+| **jwenv 1.7B poc** | Q8_0 | **0.804** | 0.095 → **0.033** | 1.58 | 51 ms |
+| Qwen3-1.7B | Q8_0 | 0.713 | 0.271 → 0.034 | **8.57** | 55 ms |
+| **jwenv 0.6B poc** | Q8_0 | **0.695** | 0.125 → **0.043** | 1.60 | 41 ms |
+| Qwen3-0.6B | Q8_0 | 0.513 | 0.349 → 0.055 | **6.60** | 42 ms |
+
+The gain is largest where the model is smallest: +0.182 at 0.6B, +0.091 at 1.7B, +0.037 at 4B. A
+tuned 0.6B beats an untouched 1.7B, and a tuned 1.7B comes close to an untouched 4B Instruct.
+
+The temperature matters as much as the accuracy. An untouched Qwen3 answers almost everything with
+near-certainty and needs its logits divided by 6.6 or 8.6 before the numbers mean anything; the
+tuned models sit near 1.6, so the raw probabilities are already usable. That is why the uncalibrated
+ECE drops from 0.349 to 0.125 at 0.6B.
+
+These numbers were measured through this engine's own `/v1/systemone`. Running the same models under
+llama.cpp gives the same answers to within 0.01, because the prompt is built identically.
+
 ## Layout
 
 ```text
