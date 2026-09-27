@@ -1,5 +1,6 @@
 // Jev サーバー（TypeSafe System One 互換 API、Node.js + WebGPU、llama.cpp 非依存）
-//   node src/server.ts --model ../models/gguf/qwen3-1.7b-jev-Q8_0.gguf [--port 8080] [--weights q8|f32] [--temperature T]
+//   node src/server.ts --model <model.gguf> [--port 8080] [--weights q8|f32] [--temperature T]
+//   node src/server.ts --hf kishida/jwenv-4b-poc-gguf:q4_k_m   Hugging Face から取って ~/.cache/jwenv に置く
 //                      [--kv-cache-tokens 8192]  プレフィックスKVキャッシュ容量（0でリクエストをまたぐキャッシュを無効）
 //                      [--api-key KEY]           指定すると Authorization: Bearer KEY を要求（未指定なら認証なし）
 //                      [--max-queue 256]         待ち行列の上限（超えたら 529 Overloaded）
@@ -15,11 +16,12 @@ import { basename, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { JevClassifier, JevError, type PreparedRequest, type SystemOneResponse } from "./jev.ts";
-import { loadModelNode } from "./node/gpu_node.ts";
+import { ensureModel } from "./node/hf.ts";
 
 const { values: argv } = parseArgs({
   options: {
     model: { type: "string" },
+    hf: { type: "string" },
     port: { type: "string", default: "8080" },
     host: { type: "string", default: "127.0.0.1" },
     weights: { type: "string", default: "q8" },
@@ -32,21 +34,46 @@ const { values: argv } = parseArgs({
     "max-queue": { type: "string", default: "256" },
   },
 });
-if (!argv.model) {
-  console.error("usage: node src/server.ts --model <model.gguf> [--port 8080]");
-  process.exit(1);
+// モデルの在り処を決める。--hf なら Hugging Face から落としてキャッシュする。
+// ここで失敗したときは process.exit を呼ばない。Windows では fetch が開いたハンドルを
+// 残したまま exit すると libuv が abort してしまうので、終了コードだけ立てて自然に終わらせる。
+async function resolveModel(): Promise<string | null> {
+  if (argv.model) return argv.model;
+  if (!argv.hf) {
+    console.error("usage: node src/server.ts --model <model.gguf> [--port 8080]");
+    console.error("       node src/server.ts --hf <org/repo>[:<quant>] [--port 8080]");
+    return null;
+  }
+  try {
+    return await ensureModel(argv.hf, (m) => console.log(m));
+  } catch (e) {
+    console.error(String((e as Error).message ?? e));
+    return null;
+  }
 }
+
+const modelPath = await resolveModel();
+if (modelPath === null) {
+  process.exitCode = 1;
+} else {
+await start(modelPath);
+}
+
+async function start(modelPath: string) {
+// WebGPU のネイティブ addon はここまで読み込まない。引数の誤りで終了するときに、
+// 余計な後片付けを走らせないため。
+const { loadModelNode } = await import("./node/gpu_node.ts");
 
 const maxBatchTokens = Number(argv["max-batch-tokens"]);
 const maxQueue = Number(argv["max-queue"]);
-const { model, adapterInfo, loadMs } = await loadModelNode(argv.model, {
+const { model, adapterInfo, loadMs } = await loadModelNode(modelPath, {
   weights: argv.weights as "q8" | "f32",
   maxTokens: maxBatchTokens,
   maxSeqLen: Number(argv["max-seq-len"]),
   maxSeqs: 128,
   kvCacheTokens: Number(argv["kv-cache-tokens"]),
 });
-const modelName = argv["model-name"] ?? basename(argv.model).replace(/\.gguf$/i, "");
+const modelName = argv["model-name"] ?? basename(modelPath).replace(/\.gguf$/i, "");
 const jev = new JevClassifier(model, modelName, argv.temperature ? Number(argv.temperature) : undefined);
 console.log(`GPU: ${adapterInfo}`);
 console.log(`model ${modelName} loaded in ${(loadMs / 1000).toFixed(1)}s (GPU ${(model.gpuBytes / 2 ** 20).toFixed(0)}MB, T=${jev.temperature.toFixed(4)})`);
@@ -182,3 +209,4 @@ const server = createServer(async (req, res) => {
   }
 });
 server.listen(Number(argv.port), argv.host, () => console.log(`listening on http://${argv.host}:${argv.port}`));
+}

@@ -37,6 +37,16 @@ npm run build:web                       # only needed for the Web UI
 npm start -- --model path/to/model.gguf --port 8080
 ```
 
+Or name a Hugging Face repository and let it fetch the GGUF:
+
+```bash
+npm start -- --hf kishida/jwenv-4b-poc-gguf:q4_k_m --port 8080
+```
+
+The file lands in `~/.cache/jwenv/<org>/<repo>/` (override with `JWENV_CACHE`) and is reused next
+time. Drop the `:quant` when a repository holds only one GGUF, or give the file name outright. Set
+`HF_TOKEN` for a private or gated repository. Split GGUFs are not supported yet.
+
 - **API**: `POST http://127.0.0.1:8080/v1/systemone`
 - **Web UI**: <http://127.0.0.1:8080/> — the same page, using the server's model
 - **Health**: `GET /health` — the loaded model, its temperature, how many requests have been served,
@@ -44,7 +54,8 @@ npm start -- --model path/to/model.gguf --port 8080
 
 | option | default | meaning |
 |---|---|---|
-| `--model` | required | the GGUF to load |
+| `--model` | | the GGUF to load; either this or `--hf` |
+| `--hf` | | `org/repo[:quant]` to fetch from Hugging Face instead |
 | `--port` / `--host` | 8080 / 127.0.0.1 | where to listen |
 | `--api-key KEY` | none | require `Authorization: Bearer KEY` |
 | `--weights q8\|f32` | q8 | keep quantized weights on the GPU, or expand to f32 |
